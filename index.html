@@ -1,0 +1,658 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Map, 
+  Box, 
+  Shield, 
+  Users, 
+  ArrowRight, 
+  AlertTriangle, 
+  CheckCircle, 
+  Cpu, 
+  Activity,
+  Zap,
+  Database,
+  Settings,
+  Lock,
+  Search,
+  Menu,
+  X,
+  Target,
+  BarChart3,
+  FileText,
+  AlertOctagon,
+  Layers,
+  Network,
+  Crown,
+  Flag
+} from 'lucide-react';
+
+const AgenticTransformation = () => {
+  const [activeSection, setActiveSection] = useState('overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Scroll spy to update active section in sidebar
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['overview', 'context', 'ws1', 'ws2', 'ws3', 'ws4', 'sponsorship', 'realities', 'summary'];
+      const scrollPosition = window.scrollY + 300;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveSection(section);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
+      
+      {/* Mobile Nav Header */}
+      <div className="lg:hidden fixed top-0 w-full z-50 bg-white border-b border-slate-200 px-4 py-3 flex justify-between items-center shadow-sm">
+        <div className="flex items-center gap-2 font-bold text-slate-900">
+          <div className="bg-indigo-600 p-1.5 rounded text-white">
+            <Cpu size={18} />
+          </div>
+          <span>Agentic <span className="text-indigo-600">Transformation</span></span>
+        </div>
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-slate-600">
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-white pt-20 px-6 lg:hidden animate-in fade-in slide-in-from-top-10 duration-200">
+          <div className="space-y-4 text-lg font-medium">
+            <button onClick={() => scrollTo('context')} className="block w-full text-left py-3 border-b border-slate-100">Why Transformation?</button>
+            <button onClick={() => scrollTo('ws1')} className="block w-full text-left py-3 border-b border-slate-100">WS1: Opportunity</button>
+            <button onClick={() => scrollTo('ws2')} className="block w-full text-left py-3 border-b border-slate-100">WS2: Delivery</button>
+            <button onClick={() => scrollTo('ws3')} className="block w-full text-left py-3 border-b border-slate-100">WS3: Governance</button>
+            <button onClick={() => scrollTo('ws4')} className="block w-full text-left py-3 border-b border-slate-100">WS4: Ops & Change</button>
+            <button onClick={() => scrollTo('sponsorship')} className="block w-full text-left py-3 border-b border-slate-100">Sponsorship</button>
+            <button onClick={() => scrollTo('realities')} className="block w-full text-left py-3 text-slate-500">Realities</button>
+          </div>
+        </div>
+      )}
+
+      <div className="flex max-w-8xl mx-auto">
+        
+        {/* Sticky Sidebar Navigation (Desktop) */}
+        <aside className="hidden lg:block w-72 h-screen sticky top-0 border-r border-slate-200 bg-white overflow-y-auto">
+          <div className="p-6 pt-8 mb-4">
+            <div className="flex items-center gap-2 font-bold text-xl text-slate-900 mb-1">
+              <div className="bg-indigo-600 p-1.5 rounded text-white">
+                <Cpu size={20} />
+              </div>
+              <span>Agentic <span className="text-indigo-600">Transformation</span></span>
+            </div>
+            <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest pl-9">Program Office</div>
+          </div>
+          
+          <nav className="space-y-1 px-4 pb-10">
+            <NavItem id="overview" active={activeSection} onClick={scrollTo} icon={Target} label="Mission & Velocity" />
+            <NavItem id="context" active={activeSection} onClick={scrollTo} icon={Layers} label="Why Transformation?" />
+            
+            <div className="pt-6 pb-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">The Workstreams</div>
+            <NavItem id="ws1" active={activeSection} onClick={scrollTo} icon={Map} label="WS1: Opportunity" />
+            <NavItem id="ws2" active={activeSection} onClick={scrollTo} icon={Box} label="WS2: Delivery" />
+            <NavItem id="ws3" active={activeSection} onClick={scrollTo} icon={Shield} label="WS3: Governance" />
+            <NavItem id="ws4" active={activeSection} onClick={scrollTo} icon={Users} label="WS4: Org & Change" />
+            
+            <div className="pt-6 pb-2 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Strategic Gaps</div>
+            <NavItem id="sponsorship" active={activeSection} onClick={scrollTo} icon={Crown} label="Exec Sponsorship" />
+            <NavItem id="realities" active={activeSection} onClick={scrollTo} icon={AlertOctagon} label="Cross-Cutting Realities" />
+            <NavItem id="summary" active={activeSection} onClick={scrollTo} icon={Flag} label="Summary" />
+          </nav>
+        </aside>
+
+        {/* Main Content Scroll Area */}
+        <main className="flex-1 min-w-0 bg-white">
+          
+          {/* Hero Section */}
+          <section id="overview" className="pt-24 lg:pt-24 pb-14 px-6 lg:px-16 border-b border-slate-200 bg-slate-50">
+            <div className="max-w-5xl">
+              <h1 className="text-4xl lg:text-6xl font-extrabold text-slate-900 tracking-tight mb-8 leading-[1.1]">
+                Transforming for <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Agentic Velocity</span>
+              </h1>
+              <p className="text-xl lg:text-2xl text-slate-600 leading-relaxed mb-10 max-w-4xl">
+                This isn't about deploying chatbots or orchestrating APIs. It is a fundamental shift in organizational velocity. An Agentic Enterprise decouples growth from headcount, allowing execution to scale instantly and decisions to happen at machine speed.
+              </p>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <div className="font-bold text-slate-900 mb-2 text-lg">The Shift</div>
+                  <p className="text-slate-600 leading-relaxed">Moving from human-speed processes assisted by software, to machine-speed execution supervised by humans.</p>
+                </div>
+                <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm">
+                  <div className="font-bold text-slate-900 mb-2 text-lg">The Outcome</div>
+                  <p className="text-slate-600 leading-relaxed">Altering the unit economics of the business by enabling "impossible" workflows that were previously too labor-intensive to justify.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Context Section: Why Transformation? */}
+          <section id="context" className="py-12 px-6 lg:px-16 border-b border-slate-200">
+            <div className="max-w-5xl">
+              <div className="flex items-center gap-2 mb-6">
+                <Layers className="text-indigo-600" size={24} />
+                <h2 className="text-3xl font-bold text-slate-900">Why a "Transformation Program"?</h2>
+              </div>
+              
+              <div className="prose prose-lg text-slate-600 mb-10 max-w-4xl">
+                <p>
+                  Most enterprise initiatives are Modernization (updating the stack) or Optimization (BPR/Six Sigma). 
+                  Agentic Transformation is different because it introduces a new class of labor.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 mb-12">
+                <ContextCard 
+                  title="ERP / Systems of Record" 
+                  subtitle="Digitizing Data" 
+                  desc="Focuses on a single source of truth. The human still does the work; the system records it." 
+                  dim
+                />
+                <ContextCard 
+                  title="BPR / Workflow" 
+                  subtitle="Optimizing Process" 
+                  desc="Focuses on efficiency. Reducing steps, routing tasks. The human still executes the decision." 
+                  dim
+                />
+                <ContextCard 
+                  title="Agentic Transformation" 
+                  subtitle="Systems of Agency" 
+                  desc="Focuses on autonomous execution. The system observes, decides, and acts. The human supervises." 
+                  active
+                />
+              </div>
+
+              <div className="bg-indigo-50 rounded-2xl p-8 border border-indigo-100">
+                <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <Network className="text-indigo-600" />
+                  Why Workstreams?
+                </h3>
+                <p className="text-slate-700 leading-relaxed max-w-3xl">
+                  We cannot simply "install" this capability. It requires a coordinated evolution across four dimensions. 
+                  We separate these into workstreams to ensure that while we <strong>identify the right problems (WS1)</strong>, we are simultaneously <strong>building the technology (WS2)</strong>, <strong>establishing safety rails (WS3)</strong>, and <strong>preparing the workforce (WS4)</strong>. 
+                  Neglecting any one of these leads to "shelf-ware"—powerful agents that no one uses or trusts.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* WS1: Opportunity Mapping */}
+          <section id="ws1" className="py-12 px-6 lg:px-16 border-b border-slate-200">
+            <div className="max-w-5xl">
+              <SectionHeader 
+                title="WS1: Opportunity Mapping"
+                owner="Business Lead + Strategy"
+                description="Finding where agents create value. Don't just automate the old way—enable the new way."
+                variant="indigo"
+              />
+
+              <div className="mt-8">
+                {/* Existing Work - OPTIMIZATION */}
+                <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 relative overflow-hidden group hover:border-indigo-200 transition-colors">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2.5 bg-white text-indigo-600 rounded-xl shadow-sm border border-slate-100"><Activity size={24} /></div>
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900">Optimization</h3>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Core Business Workflows</p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <p className="text-slate-600 leading-relaxed mb-4 max-w-3xl">
+                      This is about more than fixing bottlenecks. It's about fundamentally restructuring departmental operations—transforming Sales, Marketing, and Operations by removing the "human-speed" loops that slow down execution.
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <BulletPoint title="Departmental Deep-Clean">
+                          Automating the high-volume, low-variance work in <strong>Finance</strong> (reconciliations), <strong>Marketing</strong> (campaign ops), and <strong>Support</strong> (L1 triage).
+                        </BulletPoint>
+                        <BulletPoint title="Latency Elimination">
+                          Removing the "waiting for email" downtime. Processes that took days now resolve in seconds.
+                        </BulletPoint>
+                      </div>
+                      <div className="space-y-6">
+                        <BulletPoint title="Routine vs. Judgment">
+                          Strictly separating tasks that require human empathy/strategy from those that require only logic/data.
+                        </BulletPoint>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-sm uppercase tracking-wide">
+                  <Target size={18} className="text-indigo-600" />
+                  Execution: BU Deep Dive
+                </h4>
+                <div className="text-slate-600 text-sm grid md:grid-cols-2 gap-x-12 gap-y-3">
+                  <div className="flex gap-2"><span className="text-indigo-400 font-bold">•</span> Start with org structure: Sales, Marketing, Ops.</div>
+                  <div className="flex gap-2"><span className="text-indigo-400 font-bold">•</span> Map roles, workflows, pain points, cost centers.</div>
+                  <div className="flex gap-2"><span className="text-indigo-400 font-bold">•</span> Identify appetite: who will lean in vs. resist?</div>
+                  <div className="flex gap-2"><span className="text-indigo-400 font-bold">•</span> <span className="font-semibold text-slate-900">Deliverable:</span> Prioritized Impact Matrix.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* WS2: Delivery */}
+          <section id="ws2" className="py-12 px-6 lg:px-16 border-b border-slate-200 bg-slate-50/50">
+            <div className="max-w-5xl">
+              <SectionHeader 
+                title="WS2: Agent Delivery"
+                owner="Delivery Lead"
+                description="Building agents and the foundation they run on. Platform is a means, not an end—it emerges from delivery needs."
+                variant="blue"
+              />
+
+              <div className="mt-8 flex flex-col gap-8">
+                {/* The Two Halves of Delivery */}
+                <div className="grid md:grid-cols-2 gap-6 lg:gap-10">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3">The Platform (Foundation)</h3>
+                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5 h-full">
+                      <TechItem icon={Database} title="Agent Runtime" desc="Where agents execute & deploy." />
+                      <TechItem icon={Lock} title="Identity & Access" desc="Agent accounts, permissions, audit trails." />
+                      <TechItem icon={Settings} title="Integration Layer" desc="Connections to CRM, ERP, Ticketing." />
+                      <TechItem icon={Activity} title="Observability" desc="Tracing & 'why did it do that' explainability." />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3">The Factory (The Work)</h3>
+                    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-5 h-full">
+                      <TechItem icon={FileText} title="Design" desc="Use shed-and-shift and spec-driven analysis to define net-new solutions." />
+                      <TechItem icon={Cpu} title="Build" desc="Prompt engineering, tool integration, orchestration." />
+                      <TechItem icon={Search} title="Eval & Test" desc="Red-teaming, edge cases, quality bars." />
+                      <TechItem icon={ArrowRight} title="Deploy & Iterate" desc="Controlled rollout & feedback loops." />
+                    </div>
+                  </div>
+                </div>
+
+                {/* THE HARD TRUTH: STAFFING */}
+                <div className="mt-4 bg-amber-50 rounded-2xl border border-amber-200 p-8">
+                  <div className="flex flex-col md:flex-row items-start gap-6">
+                    <div className="bg-white p-3 rounded-xl border border-amber-100 shadow-sm shrink-0">
+                      <AlertTriangle className="text-amber-600" size={32} />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">The Hard Truth: The Staffing Problem</h3>
+                      <p className="text-slate-700 text-lg leading-relaxed">
+                        Your IT organization probably can't do this today. Agent delivery is more like product development than systems integration. It requires people who understand LLMs, prompt engineering, and eval methodology.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* WS3: Governance */}
+          <section id="ws3" className="py-12 px-6 lg:px-16 border-b border-slate-200">
+            <div className="max-w-5xl">
+              <SectionHeader 
+                title="WS3: Governance & Risk"
+                owner="Risk/Compliance Lead + Legal"
+                description="Defining the rules of the road so agents don't create liability, regulatory, or reputational risk."
+                variant="emerald"
+              />
+
+              <div className="mt-8 grid md:grid-cols-2 gap-6">
+                <GovCard title="Decision Rights Framework" icon={Shield}>
+                  Defining what is autonomous, what is supervised, and what is human-only.
+                </GovCard>
+                <GovCard title="Data Governance" icon={Database}>
+                  What agents can access, PII handling, and data residency compliance.
+                </GovCard>
+                <GovCard title="Failure Protocols" icon={AlertOctagon}>
+                  Incident response when things go wrong. What happens when it hallucinates?
+                </GovCard>
+                <GovCard title="Audit & Explainability" icon={FileText}>
+                  Demonstrating what happened and why to auditors and regulators.
+                </GovCard>
+              </div>
+            </div>
+          </section>
+
+          {/* WS4: Operating Model */}
+          <section id="ws4" className="py-12 px-6 lg:px-16 border-b border-slate-200 bg-slate-50/50">
+             <div className="max-w-5xl">
+              <SectionHeader 
+                title="WS4: Org & Change"
+                owner="COO + HR + Change Lead"
+                description="Redesigning how the organization works with agents, and getting humans ready for it."
+                variant="rose"
+              />
+
+              <div className="mt-8 grid md:grid-cols-2 gap-8 lg:gap-16">
+                <div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 pb-2 border-b border-slate-200">
+                    <Users className="text-rose-500" /> Org Design
+                  </h3>
+                  <ul className="space-y-4">
+                    <CheckItem><strong>Role Evolution:</strong> Which roles change, emerge, or consolidate?</CheckItem>
+                    <CheckItem><strong>Agent Ops Function:</strong> Who builds, monitors, and improves agents?</CheckItem>
+                    <CheckItem><strong>Supervision Models:</strong> How humans oversee agent work at scale.</CheckItem>
+                    <CheckItem><strong>Workforce Planning:</strong> Human + Agent capacity modeling.</CheckItem>
+                  </ul>
+                </div>
+
+                <div>
+                   <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2 pb-2 border-b border-slate-200">
+                    <BarChart3 className="text-rose-500" /> Change & Enablement
+                  </h3>
+                  <ul className="space-y-4">
+                    <CheckItem><strong>Stakeholder Mapping:</strong> Affected parties, concerns, influence.</CheckItem>
+                    <CheckItem><strong>Comms:</strong> The "Why", "What it means for you", "What's not changing".</CheckItem>
+                    <CheckItem><strong>Training:</strong> Working alongside agents, escalation handling.</CheckItem>
+                    <CheckItem><strong>Feedback Loops:</strong> Capturing what's working and what isn't.</CheckItem>
+                  </ul>
+                </div>
+              </div>
+
+              {/* THE HARD TRUTH: HR */}
+              <div className="mt-12 bg-rose-50 rounded-2xl border border-rose-200 p-8">
+                  <div className="flex flex-col md:flex-row items-start gap-6">
+                    <div className="bg-white p-3 rounded-xl border border-rose-100 shadow-sm shrink-0">
+                      <AlertTriangle className="text-rose-600" size={32} />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">The Hard Truth: The HR Problem</h3>
+                      <p className="text-slate-700 mb-8 text-lg leading-relaxed">
+                        Most HR organizations are not equipped for this. They excel at recruiting for known roles and compliance, but struggle with net-new roles that don't exist in the market yet, or workforce planning for non-humans.
+                      </p>
+                      
+                      <div className="bg-white p-6 rounded-xl border border-rose-100 shadow-sm">
+                        <h4 className="font-bold text-rose-700 uppercase tracking-wide text-xs mb-4 border-b border-rose-100 pb-2">Strategic HR Options</h4>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <HRAction title="Borrow" desc="Pull in org design consultants for the transition." />
+                          <HRAction title="Embed" desc="Put a transformation lead inside HR with special license." />
+                          <HRAction title="Parallel Path" desc="Run workforce transformation as a program workstream, not an HR project." />
+                          <HRAction title="Upskill" desc="Train HR leadership on 'HR for AI-augmented orgs'." />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+          </section>
+
+          {/* Executive Sponsorship */}
+          <section id="sponsorship" className="py-12 px-6 lg:px-16 border-b border-slate-200">
+            <div className="max-w-5xl">
+              <div className="bg-indigo-900 rounded-2xl p-8 lg:p-12 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-indigo-700 rounded-lg"><Crown size={24} className="text-amber-400" /></div>
+                    <h2 className="text-3xl font-bold">Executive Sponsorship</h2>
+                  </div>
+                  <p className="text-indigo-100 text-xl leading-relaxed max-w-3xl mb-8">
+                    The single greatest failure mode for Agentic Transformation is "fair-weather sponsorship." The first agents will be imperfect. Leadership must hold the vision through the "trough of disillusionment" and view early failures as calibration data, not reasons to cancel the program.
+                  </p>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700">
+                      <strong className="block text-amber-400 mb-1">Mandate</strong>
+                      <p className="text-sm text-indigo-200">Clear authority to redesign processes, not just automate them.</p>
+                    </div>
+                    <div className="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700">
+                      <strong className="block text-amber-400 mb-1">Patience</strong>
+                      <p className="text-sm text-indigo-200">Commitment to the 6-12 month learning curve before ROI scales.</p>
+                    </div>
+                    <div className="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700">
+                      <strong className="block text-amber-400 mb-1">Air Cover</strong>
+                      <p className="text-sm text-indigo-200">Protection for the team when "the old way" fights back.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Realities Section */}
+          <section id="realities" className="py-12 px-6 lg:px-16 bg-slate-900 text-white border-b border-slate-800">
+            <div className="max-w-5xl">
+              <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
+                <AlertOctagon className="text-indigo-400" />
+                Cross-Cutting Realities
+              </h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <RealityCard 
+                  title="The IT Gap" 
+                  text="Your IT builds systems. Agent delivery is product development + research. You need new muscle." 
+                  colorClass="border-blue-500"
+                />
+                <RealityCard 
+                  title="The HR Gap" 
+                  text="Agent-augmented workforce design is a different discipline than managing humans. You need new thinking." 
+                  colorClass="border-rose-500"
+                />
+                <RealityCard 
+                  title="The BU Gap" 
+                  text="Business units know their work, but rarely precise enough for delegation. Opportunity mapping will be painful but valuable." 
+                  colorClass="border-emerald-500"
+                />
+                <RealityCard 
+                  title="The Exec Gap" 
+                  text="Leadership must hold the vision through the 'trough of disillusionment'. The first agents will be imperfect." 
+                  colorClass="border-amber-500"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Summary Section */}
+          <section id="summary" className="py-12 px-6 lg:px-16 bg-white">
+            <div className="max-w-5xl">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl font-bold text-slate-900">Program Summary</h2>
+                <p className="text-slate-600 mt-4 max-w-3xl mx-auto leading-relaxed">
+                  This program structure ensures we don't just build technology, but simultaneously reshape the business to consume it. By paralleling opportunity mapping, delivery, governance, and organizational change, we avoid the common trap of creating powerful agents that the business is too rigid to deploy or too fearful to trust.
+                </p>
+              </div>
+              
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden mb-12">
+                <div className="grid md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+                  <SummaryCol 
+                    title="WS1: Opportunity" 
+                    icon={Map} 
+                    color="text-indigo-600"
+                    items={["Map Roles & Workflows", "Identify Bottlenecks", "Prioritize Impact"]}
+                  />
+                  <SummaryCol 
+                    title="WS2: Delivery" 
+                    icon={Box} 
+                    color="text-blue-600"
+                    items={["Build the Platform", "Design & Spec", "Deploy & Iterate"]}
+                  />
+                  <SummaryCol 
+                    title="WS3: Governance" 
+                    icon={Shield} 
+                    color="text-emerald-600"
+                    items={["Decision Rights", "Data Safety", "Audit Protocols"]}
+                  />
+                  <SummaryCol 
+                    title="WS4: Org Change" 
+                    icon={Users} 
+                    color="text-rose-600"
+                    items={["Role Evolution", "Agent Ops Team", "Workforce Training"]}
+                  />
+                </div>
+              </div>
+
+              {/* Ecosystem Links */}
+              <div className="text-center max-w-4xl mx-auto pt-8 border-t border-slate-100">
+                <h3 className="text-xl font-bold text-slate-900 mb-6">Learn More about the Agentic Enterprise</h3>
+                <p className="text-slate-600 text-lg leading-relaxed mb-4">
+                  The <a href="https://theagenticenterprise.net" className="text-indigo-600 font-bold hover:text-indigo-800 hover:underline">Agentic Enterprise</a> fuses human creativity with machine scale. By <a href="https://offloadingbook.com" className="text-indigo-600 font-bold hover:text-indigo-800 hover:underline">Offloading</a> routine work to <a href="https://agenticdevelopment.ai" className="text-indigo-600 font-bold hover:text-indigo-800 hover:underline">Agentic Development</a> swarms, teams can <a href="https://shedandshift.ai" className="text-indigo-600 font-bold hover:text-indigo-800 hover:underline">Shed and Shift</a> focus to high-value strategy.
+                </p>
+                <p className="text-slate-600 text-lg leading-relaxed">
+                  Here, <a href="https://specdriven.ai" className="text-indigo-600 font-bold hover:text-indigo-800 hover:underline">SpecDriven</a> intent and Vibe Engineering replace rigid syntax. This empowers anyone to instantly generate <a href="https://jitware.net" className="text-indigo-600 font-bold hover:text-indigo-800 hover:underline">JITware</a>, tactical software created on demand without engineering overhead.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <footer className="py-8 px-6 lg:px-16 border-t border-slate-200 bg-white">
+            <div className="max-w-5xl flex items-center justify-center text-slate-400 text-sm font-medium">
+               <span>© 2025 Agentic Transformation</span>
+            </div>
+          </footer>
+
+        </main>
+      </div>
+    </div>
+  );
+};
+
+/* --- Sub Components --- */
+
+const NavItem = ({ id, active, onClick, icon: Icon, label }) => (
+  <button 
+    onClick={() => onClick(id)}
+    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 border-r-2 ${
+      active === id 
+        ? 'bg-indigo-50 text-indigo-700 border-indigo-600' 
+        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900 border-transparent'
+    }`}
+  >
+    <Icon size={18} className={active === id ? 'text-indigo-600' : 'text-slate-400'} />
+    {label}
+  </button>
+);
+
+const SectionHeader = ({ title, owner, description, variant }) => {
+  const styles = {
+    indigo: { badge: 'bg-indigo-50 text-indigo-700 border-indigo-100', accent: 'border-indigo-200' },
+    blue: { badge: 'bg-blue-50 text-blue-700 border-blue-100', accent: 'border-blue-200' },
+    emerald: { badge: 'bg-emerald-50 text-emerald-700 border-emerald-100', accent: 'border-emerald-200' },
+    rose: { badge: 'bg-rose-50 text-rose-700 border-rose-100', accent: 'border-rose-200' },
+  };
+
+  const activeStyle = styles[variant] || styles.indigo;
+
+  return (
+    <div>
+      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider mb-4 border ${activeStyle.badge}`}>
+        Workstream Owner: {owner}
+      </div>
+      <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">{title}</h2>
+      <p className={`text-xl text-slate-600 leading-relaxed max-w-3xl border-l-4 pl-6 ${activeStyle.accent}`}>
+        {description}
+      </p>
+    </div>
+  );
+};
+
+const BulletPoint = ({ title, children, dark }) => (
+  <div className="flex items-start gap-4">
+    <div className={`mt-2 w-1.5 h-1.5 rounded-full shrink-0 ${dark ? 'bg-amber-400' : 'bg-indigo-600'}`} />
+    <div>
+      <span className={`font-bold block text-lg mb-1 ${dark ? 'text-white' : 'text-slate-900'}`}>{title}</span>
+      <span className={`text-base leading-relaxed ${dark ? 'text-slate-400' : 'text-slate-600'}`}>{children}</span>
+    </div>
+  </div>
+);
+
+const TechItem = ({ icon: Icon, title, desc }) => (
+  <div className="flex items-start gap-3">
+    <div className="p-1.5 bg-slate-50 rounded-lg text-slate-400 mt-0.5">
+      <Icon size={16} />
+    </div>
+    <div>
+      <div className="font-bold text-slate-900 text-sm">{title}</div>
+      <div className="text-sm text-slate-500 leading-snug">{desc}</div>
+    </div>
+  </div>
+);
+
+const OptionCard = ({ title, subtitle, desc }) => (
+  <div className="bg-white p-4 rounded-xl border border-amber-100 shadow-sm flex flex-col h-full">
+    <div className="font-bold text-amber-700 text-lg mb-1">{title}</div>
+    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-3">{subtitle}</div>
+    <div className="text-sm text-slate-600 leading-snug mt-auto">{desc}</div>
+  </div>
+);
+
+const GovCard = ({ title, icon: Icon, children }) => (
+  <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col h-full hover:border-emerald-200 transition-colors">
+    <div className="flex items-center gap-3 mb-4">
+      <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg"><Icon size={20} /></div>
+      <h3 className="font-bold text-slate-900">{title}</h3>
+    </div>
+    <p className="text-slate-600 text-sm leading-relaxed flex-1">{children}</p>
+  </div>
+);
+
+const CheckItem = ({ children }) => (
+  <li className="flex items-start gap-3 text-slate-600">
+    <CheckCircle size={20} className="text-rose-500 mt-0.5 shrink-0" />
+    <span className="text-base leading-relaxed">{children}</span>
+  </li>
+);
+
+const HRAction = ({ title, desc }) => (
+  <div className="flex gap-3">
+    <ArrowRight size={16} className="text-rose-400 mt-1 shrink-0" />
+    <div>
+      <strong className="text-slate-900 block text-sm">{title}</strong>
+      <p className="text-sm text-slate-600 leading-snug">{desc}</p>
+    </div>
+  </div>
+);
+
+const RealityCard = ({ title, text, colorClass }) => (
+  <div className={`bg-slate-800 p-8 rounded-2xl border-l-4 ${colorClass} hover:bg-slate-750 transition-colors`}>
+    <h3 className="text-xl font-bold mb-4 text-white">{title}</h3>
+    <p className="text-slate-300 text-base leading-relaxed">{text}</p>
+  </div>
+);
+
+const ContextCard = ({ title, subtitle, desc, active, dim }) => (
+  <div className={`p-6 rounded-xl border transition-all ${
+    active 
+      ? 'bg-white border-indigo-600 shadow-md ring-1 ring-indigo-100' 
+      : 'bg-slate-50 border-slate-200 opacity-80 hover:opacity-100'
+  }`}>
+    <h3 className={`font-bold text-lg mb-1 ${active ? 'text-indigo-700' : 'text-slate-500'}`}>{title}</h3>
+    <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">{subtitle}</div>
+    <p className="text-sm text-slate-600 leading-relaxed">{desc}</p>
+  </div>
+);
+
+const SummaryCol = ({ title, icon: Icon, color, items }) => (
+  <div className="p-6">
+    <div className={`flex items-center gap-2 mb-4 font-bold ${color}`}>
+      <Icon size={18} />
+      <span>{title}</span>
+    </div>
+    <ul className="space-y-2">
+      {items.map((item, i) => (
+        <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
+          <span className="text-slate-300 mt-1">•</span> {item}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+export default AgenticTransformation;
